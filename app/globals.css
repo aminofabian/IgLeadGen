@@ -161,3 +161,173 @@ body,
     transform: translateX(-50%);
   }
 }
+
+/* Background Patterns */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.circle-pattern {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(7px);
+}
+
+.circle-1 {
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle at center, hsl(var(--primary)) 0%, transparent 70%);
+  top: 0;
+  left: 20%;
+  opacity: 0.1;
+  animation: float 10s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle at center, hsl(var(--primary)) 0%, transparent 70%);
+  top: 20%;
+  right: 10%;
+  opacity: 0.15;
+  animation: float 12s ease-in-out infinite reverse;
+}
+
+.circle-3 {
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle at center, rgb(249, 115, 22) 0%, transparent 70%);
+  bottom: 10%;
+  left: 30%;
+  opacity: 0.1;
+  animation: float 8s ease-in-out infinite;
+}
+
+.floating-element {
+  position: absolute;
+  background: linear-gradient(
+    var(--angle),
+    hsl(var(--primary)),
+    rgb(249, 115, 22)
+  );
+  opacity: 0.03;
+  animation: rotate 8s linear infinite, float-random 15s ease-in-out infinite;
+}
+
+.elem-1 {
+  width: 100px;
+  height: 100px;
+  top: 15%;
+  left: 15%;
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation-delay: -2s;
+}
+
+.elem-2 {
+  width: 150px;
+  height: 150px;
+  top: 45%;
+  right: 25%;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+  animation-delay: -5s;
+}
+
+.elem-3 {
+  width: 80px;
+  height: 80px;
+  bottom: 20%;
+  left: 25%;
+  clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+  animation-delay: -8s;
+}
+
+.elem-4 {
+  width: 120px;
+  height: 120px;
+  top: 30%;
+  right: 15%;
+  clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+  animation-delay: -11s;
+}
+
+@keyframes rotate {
+  to {
+    --angle: 360deg;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+@keyframes float-random {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  25% {
+    transform: translate(10px, -15px) rotate(5deg);
+  }
+  50% {
+    transform: translate(-5px, -25px) rotate(-5deg);
+  }
+  75% {
+    transform: translate(-15px, -10px) rotate(3deg);
+  }
+}
+
+.bg-grid-primary {
+  background-image: linear-gradient(to right, hsl(var(--primary)/0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, hsl(var(--primary)/0.1) 1px, transparent 1px);
+}
+
+/* Navbar Sparkles */
+.nav-sparkles {
+  position: absolute;
+  inset: 0;
+  mask-image: radial-gradient(
+    100% 100% at top center,
+    black,
+    transparent
+  );
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0%,
+    transparent 40%,
+    hsl(var(--primary)) 40%,
+    hsl(var(--primary)) 40.5%,
+    transparent 40.5%,
+    transparent 45.5%,
+    rgb(249, 115, 22) 45.5%,
+    rgb(249, 115, 22) 46%,
+    transparent 46%,
+    transparent 100%
+  );
+  opacity: 0.015;
+  background-size: 200% 100%;
+  animation: nav-sparkle 8s linear infinite;
+}
+
+@keyframes nav-sparkle {
+  to {
+    background-position: 200% 0;
+  }
+}
+
+/* Navbar Pattern Overlay */
+.navbar-pattern {
+  background-image: 
+    radial-gradient(
+      circle at center,
+      var(--primary) 0.5px,
+      transparent 0.5px
+    );
+  background-size: 24px 24px;
+  opacity: 0.02;
+}

@@ -7,6 +7,35 @@ import { cn } from "@/lib/utils"
 export function Hero() {
   return (
     <div className="relative isolate overflow-hidden">
+      {/* Creative Background Pattern */}
+      <div className="absolute inset-0 -z-10 overflow-hidden">
+        {/* Animated Grid */}
+        <div className="absolute inset-0 bg-grid-primary/[0.02] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_at_center,white,transparent_75%)]" />
+        
+        {/* Animated Circles */}
+        <div className="absolute -top-40 -z-10 transform-gpu">
+          <div className="circle-pattern circle-1" />
+          <div className="circle-pattern circle-2" />
+          <div className="circle-pattern circle-3" />
+        </div>
+
+        {/* Gradient Mesh */}
+        <div className="absolute inset-0">
+          <div className="h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black_75%)]" />
+        </div>
+
+        {/* Floating Elements */}
+        <div className="absolute inset-0">
+          <div className="floating-element elem-1" />
+          <div className="floating-element elem-2" />
+          <div className="floating-element elem-3" />
+          <div className="floating-element elem-4" />
+        </div>
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/50 to-background" />
+      </div>
+
       {/* Animated Waves */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-lg sm:-top-80">
