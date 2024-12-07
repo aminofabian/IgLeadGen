@@ -38,7 +38,7 @@ A modern web application for Instagram lead generation and management built with
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/igleadgen.git
+git clone https://github.com/aminofabian/igleadgen.git
 cd igleadgen
 ```
 
