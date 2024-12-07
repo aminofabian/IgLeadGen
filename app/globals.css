@@ -105,3 +105,59 @@ body,
 .bg-300 {
   background-size: 300% 300%;
 }
+
+/* Hero section animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Wave animations */
+.wave-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.wave-1 {
+  animation: wave 20s linear infinite;
+  animation-delay: -2s;
+}
+
+.wave-2 {
+  animation: wave 15s linear infinite reverse;
+  animation-delay: -5s;
+}
+
+.wave-3 {
+  animation: wave 25s linear infinite;
+  animation-delay: -8s;
+}
+
+@keyframes wave {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-25%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
