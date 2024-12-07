@@ -1,36 +1,36 @@
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { LockClosedIcon } from "@radix-ui/react-icons";
-import { Jost } from "next/font/google";
-import { cn } from "@/lib/utils";
-import LoginButton from "@/components/auth/LoginButton";
-
-const font = Jost({
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-});
+import { Hero } from "@/components/homepage/Hero"
+import { Features } from "@/components/homepage/Features"
+import { Testimonials } from "@/components/homepage/Testimonials"
+import { WhyChooseUs } from "@/components/homepage/WhyChooseUs"
+import { HowItWorks } from "@/components/homepage/HowItWorks"
+import { GrowthMetrics } from "@/components/homepage/GrowthMetrics"
+import { FAQ } from "@/components/homepage/FAQ"
+import { ContactForm } from "@/components/homepage/ContactForm"
+import { Footer } from "@/components/homepage/Footer"
 
 export default function Home() {
   return (
-    <div className="flex w-4xl h-screen items-center justify-center bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-sky-400 to-blue-800 text-center border">
-      <div className="space-y-6">
-        <div className="flex text-center">
-          <h1 className="text-4xl font-bold text-slate-50">🔐Next Auth</h1>
-        </div>
-        <p
-          className={cn(
-            "text-slate-50 text-xl font-bold text-center",
-            font.className
-          )}
-        >
-          Simple Authentication Service
-        </p>
-        <LoginButton>
-          <Button size="lg" variant="secondary" className="my-4">
-            Sign In
-          </Button>
-        </LoginButton>
-      </div>
-    </div>
-  );
+    <main>
+      {/* Hero Section */}
+      <Hero />
+
+      {/* Features Section */}
+      <Features />
+
+      {/* Why Choose Us Section */}
+      <WhyChooseUs />
+
+      {/* How It Works Section */}
+      <HowItWorks />
+
+      {/* Growth Metrics Section */}
+      <GrowthMetrics />
+
+      {/* Testimonials Section */}
+      <Testimonials />
+      <FAQ />
+      <ContactForm />
+      <Footer />
+    </main>
+  )
 }
