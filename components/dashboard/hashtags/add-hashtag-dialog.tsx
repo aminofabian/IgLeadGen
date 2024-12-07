@@ -8,9 +8,30 @@ import { Plus, Loader2 } from "lucide-react"
 import { FaHashtag } from "react-icons/fa"
 
 interface HashtagData {
-  media_count?: number
-  name?: string
-  error?: string
+  id: string;
+  name: string;
+  media_count: number;
+  edge_hashtag_to_media?: {
+    count: number;
+  };
+  edge_hashtag_to_top_posts?: {
+    edges: Array<{
+      node: {
+        edge_liked_by: {
+          count: number;
+        };
+        edge_media_to_comment: {
+          count: number;
+        };
+      };
+    }>;
+  };
+}
+
+interface HashtagResponse {
+  data: HashtagData;
+  status: string;
+  message?: string;
 }
 
 export function AddHashtagDialog() {
@@ -19,6 +40,24 @@ export function AddHashtagDialog() {
   const [isLoading, setIsLoading] = useState(false)
   const [hashtagData, setHashtagData] = useState<HashtagData | null>(null)
   const [error, setError] = useState("")
+
+  const calculateEngagement = (data: HashtagData) => {
+    if (!data.edge_hashtag_to_top_posts?.edges) return "N/A";
+    
+    const posts = data.edge_hashtag_to_top_posts.edges;
+    if (posts.length === 0) return "N/A";
+
+    const totalEngagement = posts.reduce((sum, post) => {
+      const likes = post.node.edge_liked_by.count || 0;
+      const comments = post.node.edge_media_to_comment.count || 0;
+      return sum + likes + comments;
+    }, 0);
+
+    const averageEngagement = totalEngagement / posts.length;
+    const engagementRate = (averageEngagement / data.media_count) * 100;
+    
+    return `${engagementRate.toFixed(2)}%`;
+  };
 
   const fetchHashtagData = async () => {
     if (!hashtag) return
@@ -29,13 +68,17 @@ export function AddHashtagDialog() {
 
     try {
       const response = await fetch(`/api/hashtags?hashtag=${encodeURIComponent(hashtag)}`)
-      const data: HashtagData = await response.json()
+      const result: HashtagResponse = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to fetch hashtag data')
+        throw new Error(result.message || 'Failed to fetch hashtag data')
       }
 
-      setHashtagData(data)
+      if (result.status === 'fail') {
+        throw new Error(result.message || 'Failed to fetch hashtag data')
+      }
+
+      setHashtagData(result.data)
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch hashtag data'
       setError(errorMessage)
@@ -109,17 +152,23 @@ export function AddHashtagDialog() {
           <div className="space-y-4">
             <div className="rounded-lg border bg-card p-4">
               <h3 className="font-medium">Hashtag Statistics</h3>
-              <div className="mt-4 grid grid-cols-2 gap-4">
+              <div className="mt-4 grid grid-cols-3 gap-4">
                 <div>
                   <p className="text-sm text-muted-foreground">Media Count</p>
                   <p className="text-lg font-medium">
-                    {hashtagData.media_count?.toLocaleString() || 'N/A'}
+                    {(hashtagData.media_count || hashtagData.edge_hashtag_to_media?.count || 0).toLocaleString()}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm text-muted-foreground">Name</p>
+                  <p className="text-sm text-muted-foreground">Engagement Rate</p>
                   <p className="text-lg font-medium">
-                    #{hashtagData.name || hashtag}
+                    {calculateEngagement(hashtagData)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Top Posts</p>
+                  <p className="text-lg font-medium">
+                    {hashtagData.edge_hashtag_to_top_posts?.edges.length || 0}
                   </p>
                 </div>
               </div>

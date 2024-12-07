@@ -8,9 +8,31 @@ import { Search, ArrowUpRight, ArrowDownRight, Star, MoreHorizontal, Loader2 } f
 import { FaHashtag } from "react-icons/fa"
 
 interface HashtagData {
-  media_count?: number
-  name?: string
-  error?: string
+  id: string;
+  name: string;
+  media_count: number;
+  search_result_subtitle?: string;
+  edge_hashtag_to_media?: {
+    count: number;
+  };
+  edge_hashtag_to_top_posts?: {
+    edges: Array<{
+      node: {
+        edge_liked_by: {
+          count: number;
+        };
+        edge_media_to_comment: {
+          count: number;
+        };
+      };
+    }>;
+  };
+}
+
+interface HashtagResponse {
+  data: HashtagData;
+  status: string;
+  message?: string;
 }
 
 const mockHashtagData = [
@@ -88,29 +110,51 @@ export function HashtagGrid() {
   const [searchResult, setSearchResult] = useState<HashtagData | null>(null)
   const [error, setError] = useState("")
 
-  const handleSearch = async () => {
-    if (!searchTerm) return
+  const calculateEngagement = (data: HashtagData) => {
+    if (!data.edge_hashtag_to_top_posts?.edges) return "N/A";
+    
+    const posts = data.edge_hashtag_to_top_posts.edges;
+    if (posts.length === 0) return "N/A";
 
-    setIsSearching(true)
-    setError("")
-    setSearchResult(null)
+    const totalEngagement = posts.reduce((sum, post) => {
+      const likes = post.node.edge_liked_by.count || 0;
+      const comments = post.node.edge_media_to_comment.count || 0;
+      return sum + likes + comments;
+    }, 0);
+
+    const averageEngagement = totalEngagement / posts.length;
+    const engagementRate = (averageEngagement / data.media_count) * 100;
+    
+    return `${engagementRate.toFixed(2)}%`;
+  };
+
+  const handleSearch = async () => {
+    if (!searchTerm) return;
+
+    setIsSearching(true);
+    setError("");
+    setSearchResult(null);
 
     try {
-      const response = await fetch(`/api/hashtags?hashtag=${encodeURIComponent(searchTerm)}`)
-      const data: HashtagData = await response.json()
+      const response = await fetch(`/api/hashtags?hashtag=${encodeURIComponent(searchTerm)}`);
+      const result: HashtagResponse = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to fetch hashtag data')
+        throw new Error(result.message || 'Failed to fetch hashtag data');
       }
 
-      setSearchResult(data)
+      if (result.status === 'fail') {
+        throw new Error(result.message || 'Failed to fetch hashtag data');
+      }
+
+      setSearchResult(result.data);
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch hashtag data'
-      setError(errorMessage)
+      const errorMessage = err instanceof Error ? err.message : 'Failed to fetch hashtag data';
+      setError(errorMessage);
     } finally {
-      setIsSearching(false)
+      setIsSearching(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-4">
@@ -159,18 +203,32 @@ export function HashtagGrid() {
               </div>
               <div>
                 <h3 className="font-medium">#{searchResult.name || searchTerm}</h3>
-                <p className="text-sm text-muted-foreground">Search Result</p>
+                <p className="text-sm text-muted-foreground">
+                  {searchResult.search_result_subtitle || 'Search Result'}
+                </p>
               </div>
             </div>
             <Button variant="outline" size="sm">
               Add to Tracking
             </Button>
           </div>
-          <div className="mt-4 grid grid-cols-2 gap-4">
+          <div className="mt-4 grid grid-cols-3 gap-4">
             <div>
               <p className="text-sm text-muted-foreground">Media Count</p>
               <p className="text-lg font-medium">
-                {searchResult.media_count?.toLocaleString() || 'N/A'}
+                {(searchResult.media_count || searchResult.edge_hashtag_to_media?.count || 0).toLocaleString()}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Engagement Rate</p>
+              <p className="text-lg font-medium">
+                {calculateEngagement(searchResult)}
+              </p>
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Top Posts</p>
+              <p className="text-lg font-medium">
+                {searchResult.edge_hashtag_to_top_posts?.edges.length || 0}
               </p>
             </div>
           </div>
@@ -232,5 +290,5 @@ export function HashtagGrid() {
         ))}
       </div>
     </div>
-  )
+  );
 }
