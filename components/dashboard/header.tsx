@@ -3,6 +3,7 @@
 import { Bell, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import Image from 'next/image'
 
 export function DashboardHeader() {
   return (
@@ -13,7 +14,7 @@ export function DashboardHeader() {
           Welcome back, John 👋
         </h1>
         <p className="text-muted-foreground">
-          Here's what's happening with your hashtags today.
+          Here&apos;s what&apos;s happening with your hashtags today.
         </p>
       </div>
 
@@ -38,9 +39,11 @@ export function DashboardHeader() {
 
         {/* Profile */}
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <img
+          <Image
             src="/avatars/user.jpg"
             alt="Profile"
+            width={32}
+            height={32}
             className="rounded-full object-cover"
           />
         </Button>
