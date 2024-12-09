@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { FaCamera } from "react-icons/fa"
+import Image from 'next/image'
 
 export function ProfileHeader() {
   return (
@@ -22,11 +23,12 @@ export function ProfileHeader() {
       <div className="p-6">
         <div className="flex flex-col items-center -mt-20 mb-4">
           <div className="relative">
-            <img
+            <Image
               src="/avatars/user.jpg"
               alt="Profile"
-              className="w-32 h-32 rounded-full border-4 border-background"
-            />
+              width={128}
+              height={128}
+              className="rounded-full border-4 border-background"
             <Button
               variant="ghost"
               size="icon"
