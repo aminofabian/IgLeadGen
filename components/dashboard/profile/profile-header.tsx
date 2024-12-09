@@ -29,6 +29,7 @@ export function ProfileHeader() {
               width={128}
               height={128}
               className="rounded-full border-4 border-background"
+            />
             <Button
               variant="ghost"
               size="icon"

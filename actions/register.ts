@@ -1,4 +1,5 @@
 "use server";
+
 import * as z from "zod";
 import { RegisterSchema } from "@/schemas";
 import bcryptjs from "bcryptjs";
@@ -11,8 +12,9 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    return { error: "Invalid fields" };
+    return { error: "Invalid fields. Please try again" };
   }
+
   const { email, firstName, lastName, password } = validatedFields.data;
   const hashedPassword = await bcryptjs.hash(password, 10);
 
@@ -20,21 +22,27 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 
   if (existingUser) {
     return {
-      error: "Email already in use",
+      error: "Email already in use. Please use a different email.",
     };
   }
 
-  await db.user.create({
-    data: {
-      email,
-      firstName,
-      lastName,
-      password: hashedPassword,
-    },
-  });
-  const verificationToken = await generateVerificationToken(email);
+  try {
+    await db.user.create({
+      data: {
+        email,
+        firstName,  // Using firstName directly
+        lastName,   // Using lastName directly
+        password: hashedPassword,
+        isTwoFactorEnabled: false,
+      },
+    });
 
-  await sendVerificationEmail(verificationToken.email, verificationToken.token);
+    const verificationToken = await generateVerificationToken(email);
+    await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
-  return { success: "Confirmation Email Sent" };
+    return { success: `Confirmation Email Sent. Please check your email: ${email}` };
+  } catch (error) {
+    console.error("Registration error:", error);
+    return { error: "Something went wrong during registration. Please try again." };
+  }
 };

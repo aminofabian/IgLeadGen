@@ -108,7 +108,7 @@ export function AddHashtagDialog() {
             <div className="text-center">
               <p className="font-medium">Add New Hashtag</p>
               <p className="text-sm text-muted-foreground">
-                Track a new hashtag's performance
+                Track a new hashtag&apos;s performance
               </p>
             </div>
           </div>
