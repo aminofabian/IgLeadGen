@@ -42,21 +42,29 @@ export function AddHashtagDialog() {
   const [error, setError] = useState("")
 
   const calculateEngagement = (data: HashtagData) => {
-    if (!data.edge_hashtag_to_top_posts?.edges) return "N/A";
+    if (!data?.edge_hashtag_to_top_posts?.edges) return "N/A";
     
     const posts = data.edge_hashtag_to_top_posts.edges;
     if (posts.length === 0) return "N/A";
 
-    const totalEngagement = posts.reduce((sum, post) => {
-      const likes = post.node.edge_liked_by.count || 0;
-      const comments = post.node.edge_media_to_comment.count || 0;
-      return sum + likes + comments;
-    }, 0);
+    let totalEngagement = 0;
+    let validPosts = 0;
 
-    const averageEngagement = totalEngagement / posts.length;
+    posts.forEach(post => {
+      const likes = post?.node?.edge_liked_by?.count || 0;
+      const comments = post?.node?.edge_media_to_comment?.count || 0;
+      if (likes > 0 || comments > 0) {
+        totalEngagement += likes + comments;
+        validPosts++;
+      }
+    });
+
+    if (validPosts === 0 || !data.media_count) return "N/A";
+
+    const averageEngagement = totalEngagement / validPosts;
     const engagementRate = (averageEngagement / data.media_count) * 100;
     
-    return `${engagementRate.toFixed(2)}%`;
+    return engagementRate < 0.01 ? "<0.01%" : `${engagementRate.toFixed(2)}%`;
   };
 
   const fetchHashtagData = async () => {

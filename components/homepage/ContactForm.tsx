@@ -95,10 +95,10 @@ export function ContactForm() {
         <div className="text-center mb-16 relative">
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-32 w-32 rounded-full bg-primary/20 blur-3xl" />
           <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60">
-            Let's Connect
+            Let&apos;s Connect
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
-            Ready to transform your Instagram presence? We're here to help you succeed.
+            Ready to transform your Instagram presence? We&apos;re here to help you succeed.
           </p>
         </div>
 
@@ -114,7 +114,7 @@ export function ContactForm() {
                   </div>
                   <h3 className="text-2xl font-semibold mb-3">Message Sent!</h3>
                   <p className="text-muted-foreground mb-8">
-                    Thank you for reaching out. We'll get back to you within 24 hours.
+                    Thank you for reaching out. We&apos;ll get back to you within 24 hours.
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}

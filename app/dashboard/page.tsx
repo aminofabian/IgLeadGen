@@ -2,7 +2,7 @@
 
 import { DashboardHeader } from "@/components/dashboard/header"
 import { OverviewCards } from "@/components/dashboard/overview-cards"
-import { HashtagPerformance } from "@/components/dashboard/hashtag-performance"
+import { HashtagGrid } from "@/components/dashboard/hashtags/hashtag-grid"
 import { RecentActivity } from "@/components/dashboard/recent-activity"
 import { QuickActions } from "@/components/dashboard/quick-actions"
 
@@ -20,9 +20,9 @@ export default function Dashboard() {
 
         {/* Main Content Grid */}
         <div className="grid gap-8 md:grid-cols-7">
-          {/* Hashtag Performance (Wider) */}
+          {/* Hashtag Grid (Wider) */}
           <div className="md:col-span-5">
-            <HashtagPerformance />
+            <HashtagGrid />
           </div>
 
           {/* Recent Activity (Narrower) */}
