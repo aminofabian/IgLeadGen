@@ -235,12 +235,12 @@ export function ContactForm() {
                     {isSubmitting ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span>Sending message...</span>
+                        <span className="text-slate-50">Sending message...</span>
                       </>
                     ) : (
                       <>
-                        <Send className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
-                        <span>Send Message</span>
+                        <Send className="w-5 h-5 transition-transform group-hover:translate-x-0.5 text-slate-50" />
+                        <span className="text-slate-50">Send Message</span>
                       </>
                     )}
                   </button>
