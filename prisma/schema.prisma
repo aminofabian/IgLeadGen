@@ -6,14 +6,15 @@
 
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-    relationMode = "prisma"
-
+  relationMode = "prisma"
 }
+
 enum UserRole {
   ADMIN
   USER
