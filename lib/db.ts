@@ -1,24 +1,25 @@
 import { PrismaClient } from '@prisma/client'
 
-declare global {
-  var cachedPrisma: PrismaClient;
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
 }
 
-let prisma: PrismaClient;
-
-if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient({
-    log: ['error'],
-    datasourceUrl: process.env.DATABASE_URL,
-  });
-} else {
-  if (!global.cachedPrisma) {
-    global.cachedPrisma = new PrismaClient({
-      log: ['query', 'error', 'warn'],
+const getPrismaClient = () => {
+  if (process.env.NODE_ENV === 'production') {
+    return new PrismaClient({
       datasourceUrl: process.env.DATABASE_URL,
-    });
+      errorFormat: 'minimal',
+    })
   }
-  prisma = global.cachedPrisma;
+  
+  if (!globalForPrisma.prisma) {
+    globalForPrisma.prisma = new PrismaClient({
+      datasourceUrl: process.env.DATABASE_URL,
+      log: ['query', 'error', 'warn'],
+    })
+  }
+
+  return globalForPrisma.prisma
 }
 
-export const db = prisma;
+export const db = getPrismaClient()
