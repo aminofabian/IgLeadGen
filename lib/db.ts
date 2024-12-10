@@ -1,17 +1,24 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from '@prisma/client'
 
 declare global {
-  var prisma: PrismaClient | undefined;
+  var cachedPrisma: PrismaClient;
 }
 
-const prismaClientSingleton = () => {
-  return new PrismaClient({
-    log: process.env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+let prisma: PrismaClient;
+
+if (process.env.NODE_ENV === 'production') {
+  prisma = new PrismaClient({
+    log: ['error'],
+    datasourceUrl: process.env.DATABASE_URL,
   });
-};
-
-export const db = globalThis.prisma ?? prismaClientSingleton();
-
-if (process.env.NODE_ENV !== "production") {
-  globalThis.prisma = db;
+} else {
+  if (!global.cachedPrisma) {
+    global.cachedPrisma = new PrismaClient({
+      log: ['query', 'error', 'warn'],
+      datasourceUrl: process.env.DATABASE_URL,
+    });
+  }
+  prisma = global.cachedPrisma;
 }
+
+export const db = prisma;
