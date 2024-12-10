@@ -85,16 +85,17 @@ export function ContactForm() {
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]" />
         <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/20 opacity-20 blur-[100px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/5 via-background/50 to-background/80" />
       </div>
 
       {/* Floating shapes */}
-      <div className="absolute -left-16 -top-16 h-64 w-64 rounded-full bg-primary/30 opacity-20 blur-3xl" />
-      <div className="absolute -right-16 -bottom-16 h-64 w-64 rounded-full bg-primary/30 opacity-20 blur-3xl" />
+      <div className="absolute -left-16 -top-16 h-64 w-64 rounded-full bg-primary/30 opacity-20 blur-3xl animate-pulse" />
+      <div className="absolute -right-16 -bottom-16 h-64 w-64 rounded-full bg-primary/30 opacity-20 blur-3xl animate-pulse [animation-delay:1s]" />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="text-center mb-16 relative">
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-32 w-32 rounded-full bg-primary/20 blur-3xl" />
-          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-32 w-32 rounded-full bg-primary/20 blur-3xl animate-pulse" />
+          <h2 className="text-4xl font-bold tracking-tight sm:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60 relative">
             Let&apos;s Connect
           </h2>
           <p className="mt-4 text-lg text-muted-foreground">
@@ -104,12 +105,12 @@ export function ContactForm() {
 
         <div className="relative">
           {/* Card container with glass effect */}
-          <div className="max-w-2xl mx-auto rounded-2xl backdrop-blur-sm border border-white/10 bg-white/5 overflow-hidden">
+          <div className="max-w-2xl mx-auto rounded-2xl backdrop-blur-sm border border-white/10 bg-white/5 overflow-hidden shadow-2xl shadow-primary/10">
             {isSubmitted ? (
               <div className="p-12 text-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent animate-gradient" />
                 <div className="relative">
-                  <div className="inline-flex p-4 rounded-full bg-primary/10 mb-6">
+                  <div className="inline-flex p-4 rounded-full bg-primary/10 mb-6 animate-bounce">
                     <CheckCircle2 className="w-8 h-8 text-primary" />
                   </div>
                   <h3 className="text-2xl font-semibold mb-3">Message Sent!</h3>
@@ -118,7 +119,7 @@ export function ContactForm() {
                   </p>
                   <button
                     onClick={() => setIsSubmitted(false)}
-                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-medium transition-colors"
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-medium transition-all duration-300 hover:scale-105"
                   >
                     <MessageSquare className="w-4 h-4" />
                     Send another message
@@ -127,28 +128,32 @@ export function ContactForm() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="p-8 lg:p-12 relative">
-                <div className="grid gap-8">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
+                <div className="relative grid gap-8">
                   {/* Input group */}
                   <div className="grid sm:grid-cols-2 gap-6">
                     {/* Name field */}
-                    <div className="relative">
-                      <label htmlFor="name" className="inline-flex items-center gap-1 text-sm font-medium mb-2">
+                    <div className="relative group">
+                      <label htmlFor="name" className="inline-flex items-center gap-1.5 text-sm font-medium mb-2">
                         <User className="w-4 h-4 text-primary/70" />
                         Name <span className="text-red-500">*</span>
                       </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg bg-white/5 border-2 ${
-                          errors.name ? 'border-red-500' : 'border-white/10'
-                        } focus:border-primary/50 focus:outline-none transition-colors placeholder:text-muted-foreground/50`}
-                        placeholder="John Doe"
-                      />
+                      <div className="relative">
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          className={`w-full px-4 py-2.5 rounded-lg bg-white/5 border-2 ${
+                            errors.name ? 'border-red-500' : 'border-white/10'
+                          } focus:border-primary/50 focus:outline-none transition-all duration-300 group-hover:border-primary/30 placeholder:text-muted-foreground/50`}
+                          placeholder="John Doe"
+                        />
+                        <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                      </div>
                       {errors.name && (
-                        <p className="mt-1.5 text-sm text-red-500 flex items-center gap-1">
+                        <p className="mt-1.5 text-sm text-red-500 flex items-center gap-1.5 animate-slideDown">
                           <span className="inline-block w-1 h-1 rounded-full bg-red-500" />
                           {errors.name}
                         </p>
@@ -156,24 +161,27 @@ export function ContactForm() {
                     </div>
 
                     {/* Email field */}
-                    <div className="relative">
-                      <label htmlFor="email" className="inline-flex items-center gap-1 text-sm font-medium mb-2">
+                    <div className="relative group">
+                      <label htmlFor="email" className="inline-flex items-center gap-1.5 text-sm font-medium mb-2">
                         <Mail className="w-4 h-4 text-primary/70" />
                         Email <span className="text-red-500">*</span>
                       </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className={`w-full px-4 py-2.5 rounded-lg bg-white/5 border-2 ${
-                          errors.email ? 'border-red-500' : 'border-white/10'
-                        } focus:border-primary/50 focus:outline-none transition-colors placeholder:text-muted-foreground/50`}
-                        placeholder="john@example.com"
-                      />
+                      <div className="relative">
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className={`w-full px-4 py-2.5 rounded-lg bg-white/5 border-2 ${
+                            errors.email ? 'border-red-500' : 'border-white/10'
+                          } focus:border-primary/50 focus:outline-none transition-all duration-300 group-hover:border-primary/30 placeholder:text-muted-foreground/50`}
+                          placeholder="john@example.com"
+                        />
+                        <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                      </div>
                       {errors.email && (
-                        <p className="mt-1.5 text-sm text-red-500 flex items-center gap-1">
+                        <p className="mt-1.5 text-sm text-red-500 flex items-center gap-1.5 animate-slideDown">
                           <span className="inline-block w-1 h-1 rounded-full bg-red-500" />
                           {errors.email}
                         </p>
@@ -182,65 +190,69 @@ export function ContactForm() {
                   </div>
 
                   {/* Company field */}
-                  <div className="relative">
-                    <label htmlFor="company" className="inline-flex items-center gap-1 text-sm font-medium mb-2">
+                  <div className="relative group">
+                    <label htmlFor="company" className="inline-flex items-center gap-1.5 text-sm font-medium mb-2">
                       <Building2 className="w-4 h-4 text-primary/70" />
                       Company
                     </label>
-                    <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border-2 border-white/10 focus:border-primary/50 focus:outline-none transition-colors placeholder:text-muted-foreground/50"
-                      placeholder="Your company name"
-                    />
+                    <div className="relative">
+                      <input
+                        type="text"
+                        id="company"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        className="w-full px-4 py-2.5 rounded-lg bg-white/5 border-2 border-white/10 focus:border-primary/50 focus:outline-none transition-all duration-300 group-hover:border-primary/30 placeholder:text-muted-foreground/50"
+                        placeholder="Your company name"
+                      />
+                      <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    </div>
                   </div>
 
                   {/* Message field */}
-                  <div className="relative">
-                    <label htmlFor="message" className="inline-flex items-center gap-1 text-sm font-medium mb-2">
+                  <div className="relative group">
+                    <label htmlFor="message" className="inline-flex items-center gap-1.5 text-sm font-medium mb-2">
                       <MessageSquare className="w-4 h-4 text-primary/70" />
                       Message <span className="text-red-500">*</span>
                     </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      value={formData.message}
-                      onChange={handleChange}
-                      rows={4}
-                      className={`w-full px-4 py-2.5 rounded-lg bg-white/5 border-2 ${
-                        errors.message ? 'border-red-500' : 'border-white/10'
-                      } focus:border-primary/50 focus:outline-none transition-colors placeholder:text-muted-foreground/50`}
-                      placeholder="Tell us about your needs..."
-                    />
+                    <div className="relative">
+                      <textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        rows={4}
+                        className={`w-full px-4 py-2.5 rounded-lg bg-white/5 border-2 ${
+                          errors.message ? 'border-red-500' : 'border-white/10'
+                        } focus:border-primary/50 focus:outline-none transition-all duration-300 group-hover:border-primary/30 placeholder:text-muted-foreground/50 resize-none`}
+                        placeholder="Your message here..."
+                      />
+                      <div className="absolute inset-0 rounded-lg bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                    </div>
                     {errors.message && (
-                      <p className="mt-1.5 text-sm text-red-500 flex items-center gap-1">
+                      <p className="mt-1.5 text-sm text-red-500 flex items-center gap-1.5 animate-slideDown">
                         <span className="inline-block w-1 h-1 rounded-full bg-red-500" />
                         {errors.message}
                       </p>
                     )}
                   </div>
-                </div>
 
-                {/* Submit button */}
-                <div className="mt-8">
+                  {/* Submit button */}
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`group w-full flex items-center justify-center gap-2 px-8 py-3.5 rounded-lg bg-primary font-medium transition-all
-                      ${isSubmitting ? 'opacity-70 cursor-not-allowed' : 'hover:bg-primary/90'}`}
+                    className="group relative inline-flex items-center justify-center gap-2 px-8 py-3 bg-primary text-white rounded-lg font-medium transition-all duration-300 hover:bg-primary/90 hover:scale-[1.02] disabled:opacity-70 disabled:hover:scale-100 overflow-hidden"
                   >
+                    <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-shimmer" />
                     {isSubmitting ? (
                       <>
                         <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span className="text-slate-50">Sending message...</span>
+                        <span className="text-white">Sending message...</span>
                       </>
                     ) : (
                       <>
-                        <Send className="w-5 h-5 transition-transform group-hover:translate-x-0.5 text-slate-50" />
-                        <span className="text-slate-50">Send Message</span>
+                        <Send className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 text-white" />
+                        <span className="text-white">Send Message</span>
                       </>
                     )}
                   </button>
@@ -248,10 +260,6 @@ export function ContactForm() {
               </form>
             )}
           </div>
-
-          {/* Decorative elements */}
-          <div className="absolute -z-10 left-8 top-8 w-24 h-24 rounded-full bg-primary/30 blur-2xl" />
-          <div className="absolute -z-10 right-8 bottom-8 w-24 h-24 rounded-full bg-primary/30 blur-2xl" />
         </div>
       </div>
     </div>

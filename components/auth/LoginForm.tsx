@@ -1,6 +1,7 @@
 "use client";
 
 import * as z from "zod";
+import { cn } from "@/lib/utils";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import FormError from "../common/FormError";
@@ -9,7 +10,6 @@ import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-
 
 import CardWrapper from "./CardWrapper";
 import { useForm } from "react-hook-form";
@@ -84,16 +84,23 @@ const LoginForm = () => {
     name="email"
     render={({ field }) => (
       <FormItem>
-      <FormLabel>Email</FormLabel>
+      <FormLabel className="text-foreground/70">Email</FormLabel>
       <FormControl>
       <Input
       disabled={isPending}
       {...field}
       placeholder="john.doe@example.com"
       type="email"
+      className={cn(
+        "transition-all duration-300",
+        "bg-background/50 border border-primary/10",
+        "placeholder:text-muted-foreground/50",
+        "focus:border-primary/30 focus:ring-primary/30",
+        "hover:bg-background/70 cursor-text"
+      )}
       />
       </FormControl>
-      <FormMessage className="text-xm text-orange-400 font-light" />
+      <FormMessage className="text-sm text-destructive font-light animate-in slide-in-from-left-1" />
       </FormItem>
     )}
     />
@@ -102,34 +109,69 @@ const LoginForm = () => {
     name="password"
     render={({ field }) => (
       <FormItem>
-      <FormLabel>Password</FormLabel>
+      <FormLabel className="text-foreground/70">Password</FormLabel>
       <FormControl>
       <Input
       {...field}
-      placeholder="1234567"
+      placeholder="••••••••"
       disabled={isPending}
       type="password"
+      className={cn(
+        "transition-all duration-300",
+        "bg-background/50 border border-primary/10",
+        "placeholder:text-muted-foreground/50",
+        "focus:border-primary/30 focus:ring-primary/30",
+        "hover:bg-background/70 cursor-text"
+      )}
       />
       </FormControl>
-      <FormMessage className="text-xm text-orange-400 font-light" />
+      <FormMessage className="text-sm text-destructive font-light animate-in slide-in-from-left-1" />
       </FormItem>
     )}
     />
     </div>
     <FormError message={error || urLError} />
     <FormSuccess message={success} />
-    <Button size="sm" variant="link" className="px-0 font-normal">
+    <div className="flex items-center justify-between">
+    <Button 
+    size="sm" 
+    variant="link" 
+    className={cn(
+      "px-0 font-normal text-primary/70",
+      "hover:text-primary transition-colors",
+      "cursor-pointer"
+    )}
+    asChild
+    >
     <Link href='/auth/reset'>
     Forgot Password?
     </Link>
     </Button>
+    </div>
     <Button
     variant="default"
     type="submit"
-    className="w-full"
     disabled={isPending}
+    className={cn(
+      "w-full font-medium",
+      "bg-gradient-to-r from-primary/90 to-primary/80",
+      "hover:from-primary hover:to-primary/90",
+      "transition-all duration-300",
+      "disabled:opacity-50 disabled:cursor-not-allowed",
+      "group relative overflow-hidden"
+    )}
     >
-    Login into Your Account
+    {/* Button Shimmer Effect */}
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+    
+    {isPending ? (
+      <div className="flex items-center justify-center gap-x-2">
+      <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+      <span>Logging in...</span>
+      </div>
+    ) : (
+      "Login into Your Account"
+    )}
     </Button>
     </form>
     </Form>
