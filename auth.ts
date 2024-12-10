@@ -3,7 +3,7 @@ import NextAuth from "next-auth";
 import authConfig from "@/auth.config";
 import { CustomPrismaAdapter } from "@/lib/auth";
 import { getUserById } from "@/data/user";
-import db from "@/lib/db";
+import { db } from "@/lib/db"; // Update import statement to use new database client export
 import { UserRole } from "@prisma/client";
 import type { DefaultSession } from "next-auth";
 
