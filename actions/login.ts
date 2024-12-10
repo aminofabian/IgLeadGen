@@ -12,7 +12,7 @@ import {
   generateVerificationToken,
 } from "@/lib/token";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import db from "@/lib/db";
+import { db } from "@/lib/db";
 
 export const login = async (
   values: z.infer<typeof LoginSchema>,
