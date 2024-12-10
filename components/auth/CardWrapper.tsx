@@ -33,17 +33,18 @@ const CardWrapper = ({
   showSocial,
 }: CardWrapperProps) => {
   return (
-    <div className="relative w-full min-h-[400px] flex items-center justify-center py-12 group/card">
+    <div className="relative w-full flex items-center justify-center min-h-screen sm:min-h-[400px]">
       {/* Card Container with Hover Effects */}
-      <div className="relative">
+      <div className="relative w-full h-screen sm:h-auto sm:max-w-[600px] md:max-w-[800px] lg:max-w-[1000px] xl:max-w-[1200px]">
         {/* Card Glow Effect */}
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-primary/50 to-primary/30 rounded-lg blur opacity-[0.15] group-hover/card:opacity-25 transition duration-500" />
+        <div className="absolute -inset-0.5 rounded-lg sm:blur opacity-[0.15] group-hover/card:opacity-25 transition duration-500" />
         
         <Card
           className={cn(
-            "w-[400px] shadow-lg mx-5 relative overflow-hidden",
+            "w-full h-full shadow-lg relative overflow-hidden",
             "bg-card/60 backdrop-blur-[12px] backdrop-saturate-150",
-            "border border-primary/10",
+            "border-0 sm:border sm:border-primary/10",
+            "rounded-none sm:rounded-lg",
             "transition-all duration-500",
             "hover:shadow-[0_0_30px_-5px] hover:shadow-primary/20",
             "animate-in zoom-in-95 duration-500",
@@ -58,18 +59,18 @@ const CardWrapper = ({
           <div className="absolute -inset-[100%] animate-[shimmer_4s_linear_infinite] bg-gradient-to-r from-transparent via-primary/[0.05] to-transparent" />
           
           {/* Content */}
-          <CardHeader className="relative space-y-6 pb-8">
+          <CardHeader className="relative space-y-6 pt-8 pb-4 px-6">
             <Header label={headerLabel} />
           </CardHeader>
 
-          <CardContent className="relative space-y-6 pb-6">
+          <CardContent className="relative space-y-6 px-6">
             {children}
           </CardContent>
 
           {showSocial && (
             <CardFooter 
               className={cn(
-                "relative flex flex-col space-y-4 pb-6",
+                "relative flex flex-col space-y-4 px-6 pb-6",
                 "before:absolute before:left-4 before:right-4 before:-top-3 before:h-px",
                 "before:bg-gradient-to-r before:from-transparent before:via-primary/20 before:to-transparent"
               )}
@@ -80,7 +81,7 @@ const CardWrapper = ({
 
           <CardFooter 
             className={cn(
-              "relative flex flex-col space-y-4",
+              "relative flex flex-col space-y-4 px-6 pb-8",
               "before:absolute before:left-4 before:right-4 before:-top-3 before:h-px",
               "before:bg-gradient-to-r before:from-transparent before:via-primary/20 before:to-transparent"
             )}
