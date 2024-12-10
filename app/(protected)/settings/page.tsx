@@ -3,10 +3,10 @@
 import { auth, signOut } from "@/auth";
 
 // Define the server action
-async function handleSignOut() {
-  "use server";
-  await signOut();
-}
+// async function handleSignOut() {
+//   "use server";
+//   await signOut();
+// }
 
 async function SettingsPage() {
   const session = await auth();
@@ -29,12 +29,12 @@ async function SettingsPage() {
           {/* Add more rows for other properties */}
         </tbody>
       </table>
-      
+      {/* 'use server';
       <form>
-        {/* <button formAction={handleSignOut} type="submit"> */}
+        <button formAction={handleSignOut} type="submit">
           Sign Out
-        {/* </button> */}
-      </form>
+        </button>
+      </form> */}
     </div>
   );
 }
