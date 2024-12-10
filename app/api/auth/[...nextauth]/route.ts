@@ -1,7 +1,6 @@
-import { handlers } from "@/auth"
 import { NextResponse } from "next/server"
 
-export const runtime = "experimental-edge" 
-export const dynamic = "force-dynamic"
+export { GET, POST } from "@/auth"
 
-export const { GET, POST } = handlers
+export const runtime = "nodejs"
+export const dynamic = "force-dynamic"
