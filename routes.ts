@@ -5,6 +5,9 @@
 export const publicRoutes = ["/",
   "/auth/new-verification",
   "/dashboard",
+  "/dashboard/hashtag",
+  "/dashboard/profile",
+  "/dashboard/insights",
 ];
 
 /*

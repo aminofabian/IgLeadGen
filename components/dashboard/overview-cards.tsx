@@ -44,25 +44,38 @@ export function OverviewCards() {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       {metrics.map((metric) => (
-        <Card key={metric.title} className="p-6">
-          <div className="flex items-center justify-between">
-            <metric.icon className="h-5 w-5 text-muted-foreground" />
-            <span className={cn(
-              "text-sm font-medium",
-              metric.trend === "up" ? "text-green-500" : "text-red-500"
-            )}>
-              {metric.change}
-            </span>
-          </div>
-          <div className="mt-4">
-            <h3 className="text-2xl font-bold">{metric.value}</h3>
-            <p className="text-sm font-medium text-muted-foreground">
-              {metric.title}
+        <Card 
+          key={metric.title} 
+          className="group relative p-6 overflow-hidden transition-all duration-500 ease-out hover:shadow-lg"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-out" />
+          <div className="relative">
+            <div className="flex items-center justify-between">
+              <div className="p-2.5 rounded-xl bg-primary/5 transition-all duration-500 ease-out group-hover:bg-primary/10 group-hover:scale-110">
+                <metric.icon className="h-5 w-5 text-primary transition-colors duration-500" />
+              </div>
+              <span className={cn(
+                "text-sm font-medium px-3 py-1 rounded-full transition-all duration-500 ease-out",
+                metric.trend === "up" 
+                  ? "bg-green-500/5 text-green-500 group-hover:bg-green-500/10" 
+                  : "bg-red-500/5 text-red-500 group-hover:bg-red-500/10"
+              )}>
+                {metric.change}
+              </span>
+            </div>
+            <div className="mt-4 space-y-1.5 transition-transform duration-500 ease-out group-hover:translate-x-1">
+              <h3 className="text-2xl font-bold tracking-tight bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text text-transparent">
+                {metric.value}
+              </h3>
+              <p className="font-medium text-muted-foreground/90">
+                {metric.title}
+              </p>
+            </div>
+            <p className="mt-3 text-xs text-muted-foreground/70 transition-all duration-500 ease-out group-hover:text-muted-foreground/90">
+              {metric.description}
             </p>
           </div>
-          <p className="mt-2 text-xs text-muted-foreground">
-            {metric.description}
-          </p>
         </Card>
       ))}
     </div>
