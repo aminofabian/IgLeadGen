@@ -5,6 +5,14 @@ import { LoginSchema } from "./schemas";
 import { getUserByEmail } from "./data/user";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import { UserRole } from "@prisma/client";
+
+declare module "@auth/core/adapters" {
+  interface AdapterUser {
+    role: UserRole;
+    isTwoFactorEnabled: boolean;
+  }
+}
 
 export default {
   providers: [
